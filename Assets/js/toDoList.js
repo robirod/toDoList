@@ -4,26 +4,27 @@
 
         constructor() {
             this.newTask();
+            this.renameNav();
         }
 
         newTask() {
             const newBtn = document.querySelector(".newBtn") ? document.querySelector(".newBtn") : false;
-            const modal = document.querySelector(".modalTask") ? document.querySelector(".modalTask") : false;
+            const modal = document.querySelector(".modal") ? document.querySelector(".modal") : false;
             const close = document.querySelector(".close") ? document.querySelector(".close") : false;
 
             if (!newBtn) return console.error({ "error": "Elemento newBtn no encontrado en el DOM" });
 
-            if (!modal) return console.error({ "error": "Elemento modalTask no encontrado en el DOM" });
+            if (!modal) return console.error({ "error": "Elemento modal no encontrado en el DOM" });
 
             if (!close) return console.error({ "error": "Elemento close no encontrado en el DOM" });
 
             newBtn.addEventListener('click', () => {
-                modal.style.display = 'block';
+                modal.classList.add('active');
                 this.formProcess();
             });
 
             close.addEventListener('click', () => {
-                modal.style.display = 'none';
+                modal.classList.remove('active');
                 this.cleanForm(modal);
             });
         }
@@ -61,13 +62,13 @@
         }
 
         createTask(task) {
-            const main = document.querySelector('main') ? document.querySelector('main') : false;
+            const list = document.querySelector('ul') ? document.querySelector('ul') : false;
 
-            if (!main) return console.error({ "error": "Elemento manin no encontrado en el DOM" });
+            if (!list) return console.error({ "error": "Elemento manin no encontrado en el DOM" });
 
             if (task.trim() == '') return console.error({ "error": "task vacio" });
 
-            const newTask = document.createElement('div');
+            const newTask = document.createElement('li');
             newTask.classList.add('task');
             newTask.innerHTML = '';
             newTask.innerHTML = `
@@ -75,7 +76,7 @@
                 <label for="task">${task}</label>
             `;
 
-            main.appendChild(newTask);
+            list.appendChild(newTask);
         }
 
         cleanForm(modal) {
@@ -89,6 +90,20 @@
             form[0].value = '';
 
             form[1].disabled = true;
+        }
+
+        renameNav() {
+            const section = document.querySelector('section nav') ? document.querySelector('section nav') : false;
+
+            const modal = document.querySelector(".modal") ? document.querySelector(".modal") : false;
+        
+            if (!section) return console.error({ "error": "section is not defined" });
+
+            if (!modal) return console.error({ "error": "Elemento modal no encontrado en el DOM" });
+
+            section.addEventListener('dblclick', () => {
+                modal.classList.add('active');
+            });
         }
     }
 
